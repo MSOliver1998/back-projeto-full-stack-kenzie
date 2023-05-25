@@ -8,7 +8,7 @@ import {
     OneToMany,
 } from 'typeorm'
 import {Contact} from './contactsEntities'
-import { UserContact } from './userContacts'
+import { UserContact } from './userContactsEntities'
 
 @Entity('users')
 class User {

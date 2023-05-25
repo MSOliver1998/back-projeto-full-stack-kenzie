@@ -1,7 +1,9 @@
-import { TAllUsers, TUser, TUserResponse} from '../interfaces/usersInterfaces';
-import { UserResponse, allUserResponse } from '../schemas/usersSchemas';
+import { TAllUsers, TUser, TUserResponse, TuserPartial} from '../interfaces/usersInterfaces';
+import { UserResponse, AllUserResponse } from '../schemas/usersSchemas';
 import { User } from '../entities/usersEntities';
 import {AppDataSource}  from '../data-source'
+import { AppError } from '../errors';
+import { UserContact } from '../entities/userContactsEntities';
 
 async function createUserService(data:TUser):Promise<TUserResponse>{
 
@@ -15,8 +17,52 @@ async function createUserService(data:TUser):Promise<TUserResponse>{
 async function getAllUserService():Promise<TAllUsers>{
     const userRepository = AppDataSource.getRepository(User)
     const allUsers= await userRepository.find()
-    return allUserResponse.parse(allUsers)
+    return AllUserResponse.parse(allUsers)
 }
 
+
+async function updateUserService(id:number,data:TuserPartial):Promise<TUserResponse>{
+
+    const userRepository=AppDataSource.getRepository(User)
+
+    const userFind=await userRepository.findOneBy({id:id})
+    
+    if (!userFind){
+        throw new AppError('user not found',404)
+    }
+
+    const newUser={
+        ...userFind,
+        ...data
+    }
+
+    userRepository.save(UserResponse.parse(newUser))
+
+    return UserResponse.parse(newUser)
+
+}
+
+async function deleteUserService(id:number){
+
+    const userRepository=AppDataSource.getRepository(User)
+    const userContactRepository=AppDataSource.getRepository(UserContact)
+    const userFind= await userRepository.findOneBy({id:id})
+
+    if(!userFind){
+        throw new AppError('user not found',404)
+
+    }
+
+    const contactsFind= await userContactRepository.createQueryBuilder('contacts')
+    .where('contacts.userId= :userId',{userId:id})
+    .getMany()
+
+    if(contactsFind){
+        userContactRepository.remove(contactsFind)
+    }
+    
+    userRepository.remove(userFind)
+
+}
  
-export {createUserService,getAllUserService}
+export {createUserService,getAllUserService,updateUserService,deleteUserService}

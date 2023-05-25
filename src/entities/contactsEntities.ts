@@ -8,7 +8,7 @@ import {
 } from 'typeorm'
 import { number } from 'zod'
 import { User } from './usersEntities'
-import { UserContact } from './userContacts'
+import { UserContact } from './userContactsEntities'
 
 @Entity('contacts')
 class Contact {

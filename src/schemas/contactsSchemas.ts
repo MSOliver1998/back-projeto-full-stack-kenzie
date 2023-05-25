@@ -7,9 +7,12 @@ const Contact=z.object({
 })
 
 const ContactResponse=Contact.extend({
+    id: z.number(),
     createdAt:z.date().or(z.string())
 })
 
 const AllContacts=z.array(ContactResponse)
 
-export { Contact, AllContacts, ContactResponse }
+const ContactPartial=Contact.partial()
+
+export { Contact, AllContacts, ContactResponse,ContactPartial }

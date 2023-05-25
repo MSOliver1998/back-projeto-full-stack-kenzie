@@ -15,7 +15,8 @@ const UserResponse=User.omit({
     createdAt:z.date().or(z.string())
 })
 
+const UserPartial=User.partial()
 
-const allUserResponse=z.array(UserResponse)
+const AllUserResponse=z.array(UserResponse)
 
-export {User,UserResponse,allUserResponse}
+export {User,UserResponse,AllUserResponse,UserPartial}

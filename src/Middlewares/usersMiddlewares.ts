@@ -5,6 +5,10 @@ import { AppError } from "../errors";
 
 async function userEmailExists(req:Request,res:Response,next:NextFunction){
 
+    if(!req.body.email){
+        next()
+    }
+
     const userRepository= AppDataSource.getRepository(User)
     const emailExists=await userRepository.findOne({
         where:{email:req.body.email}}
