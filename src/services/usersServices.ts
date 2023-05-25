@@ -4,8 +4,11 @@ import { User } from '../entities/usersEntities';
 import {AppDataSource}  from '../data-source'
 import { AppError } from '../errors';
 import { UserContact } from '../entities/userContactsEntities';
+import bcrypt from 'bcryptjs'
 
 async function createUserService(data:TUser):Promise<TUserResponse>{
+
+    data.password=await bcrypt.hash(data.password,10)
 
     const userRepository = AppDataSource.getRepository(User)
     const user=await userRepository.save(data)
