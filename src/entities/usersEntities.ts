@@ -24,6 +24,9 @@ class User {
     @Column({ type: 'varchar' , length:9})
     telefone: string
 
+    @Column({ type:'varchar',length:90})
+    password: string
+
     @CreateDateColumn()
     createdAt?: string | Date
 
