@@ -3,8 +3,8 @@ import { Contact } from "../entities/contactsEntities"
 import { UserContact } from "../entities/userContacts"
 import { User } from "../entities/usersEntities"
 import { AppError } from "../errors"
-import { TContact, TContactResponse } from "../interfaces/contactInterfaces"
-import { ContactResponse } from "../schemas/contactsSchemas"
+import { TAllContacts, TContact, TContactResponse } from "../interfaces/contactInterfaces"
+import { AllContacts, ContactResponse } from "../schemas/contactsSchemas"
 
 async function createContactService(data:TContact,userId:number):Promise<TContactResponse>{
 
@@ -34,9 +34,16 @@ async function createContactService(data:TContact,userId:number):Promise<TContac
     return ContactResponse.parse(contact)
 }
 
-async function getUserContactsService(id:string):Promise<TContact[]>{
+async function getUserContactsService(id:string):Promise<UserContact[]>{
 
-    return []
+    const userContactsRepository=AppDataSource.getRepository(UserContact)
+
+    const findContacts= await userContactsRepository.createQueryBuilder('contacts')
+    .innerJoinAndSelect('contacts.contact','contact')
+    .where('contacts.userId= :userId', {userId:id})
+    .getMany()
+
+    return findContacts
 
 }
 
