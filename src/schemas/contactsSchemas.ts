@@ -1,7 +1,15 @@
-import { User } from "../schemas/usersSchemas"
+import {z} from 'zod'
 
-const Contact=User.omit({
-    password:true
+const Contact=z.object({
+    name:z.string(),
+    email:z.string().email(),
+    telefone:z.string(),
 })
 
-export {Contact}
+const ContactResponse=Contact.extend({
+    createdAt:z.date().or(z.string())
+})
+
+const AllContacts=z.array(ContactResponse)
+
+export { Contact, AllContacts, ContactResponse }

@@ -1,16 +1,21 @@
 import { TAllUsers, TUser, TUserResponse} from '../interfaces/usersInterfaces';
-import { UserResponse } from '../schemas/usersSchemas';
+import { UserResponse, allUserResponse } from '../schemas/usersSchemas';
+import { User } from '../entities/usersEntities';
+import {AppDataSource}  from '../data-source'
 
 async function createUserService(data:TUser):Promise<TUserResponse>{
 
-    const user={...data, createAt:new Date(),id:'1'}
+    const userRepository = AppDataSource.getRepository(User)
+    const user=await userRepository.save(data)
+
     return UserResponse.parse(user)
 
 }
 
 async function getAllUserService():Promise<TAllUsers>{
-
-    return []
+    const userRepository = AppDataSource.getRepository(User)
+    const allUsers= await userRepository.find()
+    return allUserResponse.parse(allUsers)
 }
 
  

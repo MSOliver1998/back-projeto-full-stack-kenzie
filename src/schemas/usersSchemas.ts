@@ -11,8 +11,11 @@ const User=z.object({
 const UserResponse=User.omit({
     password:true
 }).extend({
-    id:z.string(),
-    createAt:z.date()
+    id:z.number(),
+    createdAt:z.date().or(z.string())
 })
 
-export {User,UserResponse}
+
+const allUserResponse=z.array(UserResponse)
+
+export {User,UserResponse,allUserResponse}

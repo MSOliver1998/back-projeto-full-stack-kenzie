@@ -3,7 +3,12 @@ import {
     Column,
     PrimaryGeneratedColumn,
     CreateDateColumn,
+    ManyToOne,
+    OneToMany,
 } from 'typeorm'
+import { number } from 'zod'
+import { User } from './usersEntities'
+import { UserContact } from './userContacts'
 
 @Entity('contacts')
 class Contact {
@@ -22,6 +27,9 @@ class Contact {
     @CreateDateColumn()
     createdAt?: string | Date
 
+    @OneToMany(()=>UserContact,userContact=> userContact.contact)
+    users:User[]
 }
+
 
 export { Contact }

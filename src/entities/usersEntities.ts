@@ -5,8 +5,10 @@ import {
     CreateDateColumn,
     ManyToMany,
     JoinTable,
+    OneToMany,
 } from 'typeorm'
 import {Contact} from './contactsEntities'
+import { UserContact } from './userContacts'
 
 @Entity('users')
 class User {
@@ -25,9 +27,8 @@ class User {
     @CreateDateColumn()
     createdAt?: string | Date
 
-    @ManyToMany(() => Contact)
-    @JoinTable()
-    categories: Contact[]
+    @OneToMany(()=>UserContact,userContact=> userContact.user)
+    contacts:Contact[]
 }
 
 export { User }
