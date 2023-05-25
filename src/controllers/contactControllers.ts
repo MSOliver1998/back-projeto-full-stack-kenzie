@@ -2,7 +2,7 @@ import {Response,Request} from 'express'
 import { createContactService, deleteContactService, getUserContactsService, updateContactService } from '../services/contactsServices'
 
 async function createContactController(req:Request,res:Response){
-    const contact=await createContactService(req.body,3)
+    const contact=await createContactService(req.body,res.locals.token.id)
     return res.status(201).json(contact)
 }
 
