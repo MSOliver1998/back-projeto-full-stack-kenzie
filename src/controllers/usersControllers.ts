@@ -20,7 +20,7 @@ async function updateUserController(req:Request,res:Response){
 async function deleteUserController(req:Request,res:Response){
 
     await deleteUserService(Number(req.params.id))
-    res.status(409).send()
+    res.status(204).send()
 }
 
 export {createUsersController,getAllUsersController,updateUserController,deleteUserController}
