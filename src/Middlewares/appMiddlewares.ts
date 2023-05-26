@@ -11,7 +11,7 @@ const checkBodyData=(schema:ZodTypeAny)=>(req:Request,res:Response,next:NextFunc
     return next()
 }
 
-function userLoginIsValid(req:Request,res:Response,next:NextFunction){
+const checkLogin=(type:'all'|'admin' |'owern'|'adminOrOwern'='all')=>(req:Request,res:Response,next:NextFunction)=>{
 
     const secretKey=process.env.SECRET_KEY!
     
@@ -28,13 +28,40 @@ function userLoginIsValid(req:Request,res:Response,next:NextFunction){
             throw new AppError(err.message,403)
         }
         res.locals.token = {
-            id: decoded?.sub
+            id: decoded?.sub,
+            admin: decoded?.admin
         }
     })
 
-    next()
+    const error=()=>{
+        throw new AppError('has not permission', 401)}
 
+    switch(type){
+        case 'all':
+            next()
+            break
+        case  'owern':
+            if (res.locals.token.id==req.params.id) next()
+            else{
+                error()
+            }
+            break
+        case "admin":
+            if (res.locals.token.admin) next()
+            else{
+                error()
+            }
+            break
+        case "adminOrOwern":
+            if(res.locals.token.admin || res.locals.id==req.params.id) next()
+            else{
+                error()
+            }
+            break
+        default:
+            error()
+            
+    }
 }
 
-
-export {checkBodyData,userLoginIsValid}
+export {checkBodyData,checkLogin}
