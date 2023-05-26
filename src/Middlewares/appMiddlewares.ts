@@ -2,7 +2,6 @@ import { NextFunction, Request, Response } from "express";
 import { ZodTypeAny } from "zod";
 import { AppError } from "../errors";
 import jwt from "jsonwebtoken"
-import { error } from "console";
 import 'dotenv/config'
 
 const checkBodyData=(schema:ZodTypeAny)=>(req:Request,res:Response,next:NextFunction)=>{
