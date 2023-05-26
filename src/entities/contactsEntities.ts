@@ -24,7 +24,7 @@ class Contact {
     @Column({ type: 'varchar' , length:9})
     telefone: string
 
-    @CreateDateColumn()
+    @CreateDateColumn({type: 'date'})
     createdAt?: string | Date
 
     @OneToMany(()=>UserContact,userContact=> userContact.contact)
