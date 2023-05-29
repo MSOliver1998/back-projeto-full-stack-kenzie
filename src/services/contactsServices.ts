@@ -3,8 +3,8 @@ import { Contact } from "../entities/contactsEntities"
 import { UserContact } from "../entities/userContactsEntities"
 import { User } from "../entities/usersEntities"
 import { AppError } from "../errors"
-import { TAllContacts, TContact, TContactPartial, TContactResponse } from "../interfaces/contactInterfaces"
-import { AllContacts, ContactResponse } from "../schemas/contactsSchemas"
+import { TAllContacts, TAllContactsUser, TContact, TContactPartial, TContactResponse } from "../interfaces/contactInterfaces"
+import { AllContactsResponse, AllContactsUsersResponse, ContactResponse } from "../schemas/contactsSchemas"
 
 async function createContactService(data:TContact,userId:number):Promise<TContactResponse>{
 
@@ -34,7 +34,7 @@ async function createContactService(data:TContact,userId:number):Promise<TContac
     return ContactResponse.parse(contact)
 }
 
-async function getUserContactsService(id:number):Promise<User>{
+async function getUserContactsService(id:number):Promise<TAllContactsUser>{
 
     const userRepository= AppDataSource.getRepository(User)
 
@@ -45,16 +45,15 @@ async function getUserContactsService(id:number):Promise<User>{
     .getOne()
  
     if (findContacts){
-        return findContacts
+        return AllContactsUsersResponse.parse(findContacts)
     }
     else{
         throw new AppError('contacts not found',404)
     }
 
-
 }
 
-async function getAllContactsService():Promise<User[]>{
+async function getAllContactsService():Promise<TAllContacts>{
 
     const userRepository= AppDataSource.getRepository(User)
 
@@ -66,7 +65,7 @@ async function getAllContactsService():Promise<User[]>{
     console.log(findContacts)
 
     if (findContacts){
-        return findContacts
+        return AllContactsResponse.parse(findContacts)
     }
     else{
         throw new AppError('contacts not found',404)

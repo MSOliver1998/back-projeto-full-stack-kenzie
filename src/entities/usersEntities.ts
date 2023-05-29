@@ -9,6 +9,7 @@ import {
 } from 'typeorm'
 import {Contact} from './contactsEntities'
 import { UserContact } from './userContactsEntities'
+import { date } from 'zod'
 
 @Entity('users')
 class User {
@@ -25,10 +26,10 @@ class User {
     telefone: string
 
     @Column({ type:'varchar',length:90})
-    password: string
+    password?: string
 
     @CreateDateColumn()
-    createdAt?: string | Date
+    createdAt: string | Date
 
     @OneToMany(()=>UserContact,userContact=> userContact.user)
     contacts:Contact[]

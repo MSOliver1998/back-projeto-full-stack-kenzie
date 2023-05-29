@@ -14,8 +14,8 @@ async function loginService(data:TLogin):Promise<TToken>{
 
     const userLogin= await userRepository.findOneBy({email:data.email})
 
-    if (!userLogin){
-        throw new AppError('user not found')
+    if (!userLogin || !userLogin.password){
+        throw new AppError('user not found',404)
     }
 
     const comparePassword=await bcrypt.compare(
@@ -23,7 +23,7 @@ async function loginService(data:TLogin):Promise<TToken>{
     )
 
     if (comparePassword==false){
-        throw new AppError('user not found')
+        throw new AppError('user not found',404)
     }
     
     const token:string=Jwt.sign(
