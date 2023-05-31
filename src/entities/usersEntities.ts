@@ -21,14 +21,14 @@ class User {
     @Column({ type: 'varchar', length: 60, unique: true })
     email: string
 
-    @Column({ type: 'varchar' , length:9})
+    @Column({ type: 'varchar' , length:12})
     telefone: string
 
     @Column({ type:'varchar',length:90})
-    password: string
+    password?: string
 
     @CreateDateColumn()
-    createdAt?: string | Date
+    createdAt: string | Date
 
     @OneToMany(()=>UserContact,userContact=> userContact.user)
     contacts:Contact[]

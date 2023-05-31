@@ -19,8 +19,8 @@ class UserContact{
     @ManyToOne(() => User, (user) => user.contacts)
     user: User
 
-    @CreateDateColumn({type: 'date'})
-    CreatedAt: string | Date
+    @CreateDateColumn()
+    createdAt: string | Date
 
 }
 
