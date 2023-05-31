@@ -9,7 +9,7 @@ import bcrypt from 'bcryptjs'
 async function createUserService(data:TUser):Promise<TUserResponse>{
 
     data.password=await bcrypt.hash(data.password,10)
-
+    data.telefone=data.telefone.split(' ').join('')
     const userRepository = AppDataSource.getRepository(User)
     const user=await userRepository.save(data)
 

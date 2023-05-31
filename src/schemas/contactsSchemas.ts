@@ -4,7 +4,7 @@ import { UserResponse } from './usersSchemas'
 const Contact=z.object({
     name:z.string(),
     email:z.string().email(),
-    telefone:z.string(),
+    telefone:z.string().min(11,'insira o telefone com o ddd').max(12,'telefone inválido'),
 })
 
 const ContactResponse=Contact.extend({

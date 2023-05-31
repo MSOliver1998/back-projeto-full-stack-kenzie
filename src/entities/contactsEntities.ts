@@ -21,7 +21,7 @@ class Contact {
     @Column({ type: 'varchar', length: 60, unique: true })
     email: string
 
-    @Column({ type: 'varchar' , length:9})
+    @Column({ type: 'varchar' , length:12})
     telefone: string
 
     @CreateDateColumn()

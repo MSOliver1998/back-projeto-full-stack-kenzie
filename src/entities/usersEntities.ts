@@ -9,7 +9,6 @@ import {
 } from 'typeorm'
 import {Contact} from './contactsEntities'
 import { UserContact } from './userContactsEntities'
-import { date } from 'zod'
 
 @Entity('users')
 class User {
@@ -22,7 +21,7 @@ class User {
     @Column({ type: 'varchar', length: 60, unique: true })
     email: string
 
-    @Column({ type: 'varchar' , length:9})
+    @Column({ type: 'varchar' , length:12})
     telefone: string
 
     @Column({ type:'varchar',length:90})

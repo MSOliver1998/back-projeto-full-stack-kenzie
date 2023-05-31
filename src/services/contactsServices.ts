@@ -7,6 +7,8 @@ import { TAllContacts, TAllContactsUser, TContact, TContactPartial, TContactResp
 import { AllContactsResponse, AllContactsUsersResponse, ContactResponse } from "../schemas/contactsSchemas"
 
 async function createContactService(data:TContact,userId:number):Promise<TContactResponse>{
+    
+    data.telefone=data.telefone.split(' ').join('')
 
     const userRepository=AppDataSource.getRepository(User)
     const contactRepository=AppDataSource.getRepository(Contact)
