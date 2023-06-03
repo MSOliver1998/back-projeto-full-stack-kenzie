@@ -14,7 +14,6 @@ const checkBodyData=(schema:ZodTypeAny)=>(req:Request,res:Response,next:NextFunc
 const checkLogin=(type:'all'|'admin' |'owern'|'adminOrOwern'='all')=>(req:Request,res:Response,next:NextFunction)=>{
 
     const secretKey=process.env.SECRET_KEY!
-    
     const token=req.headers.authorization
 
     if(!token){

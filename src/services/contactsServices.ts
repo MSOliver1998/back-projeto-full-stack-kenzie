@@ -76,12 +76,12 @@ async function getAllContactsService():Promise<TAllContacts>{
 
 }
 
-async function deleteContactService(id:number):Promise<void>{
+async function deleteContactService(id:number,userId:Number):Promise<void>{
 
     const contactUserRepository= AppDataSource.getRepository(UserContact)
 
     const contactUser=await contactUserRepository.createQueryBuilder('contact')
-    .where('contact.userId= :userId',{userId:1})
+    .where('contact.userId= :userId',{userId:userId})
     .andWhere('contact.contactId= :contactId',{contactId:id})
     .getOne()
 
@@ -96,7 +96,6 @@ async function updateContactService(id:number,data:TContactPartial):Promise<TCon
 
     const contactRepository=AppDataSource.getRepository(Contact)
     const contactFind= await contactRepository.findOneBy({id:id})
-
 
     if (!contactFind){
         throw new AppError('contact not found',404)
