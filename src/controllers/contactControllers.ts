@@ -17,7 +17,7 @@ async function getAllContactController(req:Request,res:Response){
 }
 
 async function updateContactController(req:Request,res:Response){
-    const contactUpdated=await updateContactService(Number(req.params.id),req.body)
+    const contactUpdated=await updateContactService(Number(req.params.contactId),req.body)
     return res.status(200).json(contactUpdated)
 }
 

@@ -40,7 +40,6 @@ async function updateUserService(id:number,data:TuserPartial):Promise<TUserRespo
 
     if(data.password){
         data.password= await bcrypt.hash(data.password,10)
-        console.log(data.password)
     }
 
     const userRepository=AppDataSource.getRepository(User)
