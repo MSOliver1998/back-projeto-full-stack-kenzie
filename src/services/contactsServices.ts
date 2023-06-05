@@ -64,7 +64,6 @@ async function getAllContactsService():Promise<TAllContacts>{
     .innerJoinAndSelect('contacts.contact','users')
     .getMany()
  
-    console.log(findContacts)
 
     if (findContacts){
         return AllContactsResponse.parse(findContacts)
@@ -89,7 +88,6 @@ async function deleteContactService(id:number,userId:Number):Promise<void>{
             id:id
         }
     })
-    console.log(contactFind?.user.id)
 
     if (!contactFind){
         throw new AppError('contact not found in this account',404)
@@ -101,8 +99,17 @@ async function deleteContactService(id:number,userId:Number):Promise<void>{
 
 async function updateContactService(id:number,data:TContactPartial):Promise<TContactResponse>{
 
+    const contactUserRepository=AppDataSource.getRepository(UserContact)
     const contactRepository=AppDataSource.getRepository(Contact)
-    const contactFind= await contactRepository.findOneBy({id:id})
+
+    const contactUserFind=await contactUserRepository.findOne({
+        where:{id:id},
+        relations:{
+            contact:true
+        }
+    })
+
+    const contactFind= await contactRepository.findOneBy({id:contactUserFind!.contact.id})
 
     if (!contactFind){
         throw new AppError('contact not found',404)
@@ -119,3 +126,4 @@ async function updateContactService(id:number,data:TContactPartial):Promise<TCon
 }
 
 export{createContactService,getUserContactsService,deleteContactService,updateContactService,getAllContactsService}
+
