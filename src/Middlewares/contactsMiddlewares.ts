@@ -15,7 +15,7 @@ async function contactEmailExists(req:Request,res:Response,next:NextFunction){
         where:{email:req.body.email}}
     )
 
-    if(emailExists){
+    if(emailExists && emailExists.id!=res.locals.id){
         throw new AppError('contact Email already exists',409)
     }
 

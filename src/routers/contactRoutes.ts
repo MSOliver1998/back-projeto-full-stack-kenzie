@@ -11,6 +11,6 @@ contactRoutes.get('',checkLogin('admin'),getAllContactController)
 
 contactRoutes.get('/:id',checkLogin('owern'),getContactController)
 contactRoutes.delete('/:id/:contactId',checkLogin('owern'),deleteContactController)
-contactRoutes.patch('/:id',checkLogin(),checkBodyData(ContactPartial),contactEmailExists,updateContactController)
+contactRoutes.patch('/:contactId',checkLogin(),checkBodyData(ContactPartial),contactEmailExists,updateContactController)
 
 export default contactRoutes

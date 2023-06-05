@@ -5,6 +5,7 @@ import { AppError } from "../errors";
 
 async function userEmailExists(req:Request,res:Response,next:NextFunction){
 
+
     if(!req.body.email){
         next()
     }
@@ -14,7 +15,7 @@ async function userEmailExists(req:Request,res:Response,next:NextFunction){
         where:{email:req.body.email}}
     )
 
-    if(emailExists){
+    if(emailExists && emailExists.id!=res.locals.token.id){
         throw new AppError('user Email already exists',409)
     }
 

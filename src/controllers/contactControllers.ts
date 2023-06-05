@@ -22,8 +22,7 @@ async function updateContactController(req:Request,res:Response){
 }
 
 async function deleteContactController(req:Request,res:Response){
-    const {id}=res.locals.token
-    await deleteContactService(Number(req.params.id),id)
+    await deleteContactService(Number(req.params.contactId),Number(req.params.id))
     return res.status(204).send()
 }
 export {createContactController,getContactController,deleteContactController,updateContactController,getAllContactController}
