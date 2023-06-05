@@ -1,9 +1,14 @@
 import {Response,Request} from 'express'
-import {createUserService,deleteUserService,getAllUserService, updateUserService} from '../services/usersServices'
+import {createUserService,deleteUserService,getAllUserService, getUserService, updateUserService} from '../services/usersServices'
 
 async function createUsersController(req:Request,res:Response){
     const user=await createUserService(req.body)
     return res.status(201).json(user)
+}
+
+async function getUserContoller(req:Request,res:Response){
+    const user=await getUserService(Number(req.params.id)) 
+    return res.status(200).json(user)
 }
 
 async function getAllUsersController(req:Request,res:Response){
@@ -23,4 +28,4 @@ async function deleteUserController(req:Request,res:Response){
     res.status(204).send()
 }
 
-export {createUsersController,getAllUsersController,updateUserController,deleteUserController}
+export {createUsersController,getUserContoller,getAllUsersController,updateUserController,deleteUserController}

@@ -76,27 +76,33 @@ async function getAllContactsService():Promise<TAllContacts>{
 
 }
 
-async function deleteContactService(id:number):Promise<void>{
+async function deleteContactService(id:number,userId:Number):Promise<void>{
 
     const contactUserRepository= AppDataSource.getRepository(UserContact)
 
-    const contactUser=await contactUserRepository.createQueryBuilder('contact')
-    .where('contact.userId= :userId',{userId:1})
-    .andWhere('contact.contactId= :contactId',{contactId:id})
-    .getOne()
+    const contactFind= await contactUserRepository.findOne({
+        relations:{
+            contact:true,
+            user:true
+        },
+        where:{
+            id:id
+        }
+    })
+    console.log(contactFind?.user.id)
 
-    if (!contactUser){
+    if (!contactFind){
         throw new AppError('contact not found in this account',404)
     }
     
-    contactUserRepository.remove(contactUser)
+    contactFind.user.id==userId && 
+    contactUserRepository.remove(contactFind)
 }
 
 async function updateContactService(id:number,data:TContactPartial):Promise<TContactResponse>{
 
     const contactRepository=AppDataSource.getRepository(Contact)
     const contactFind= await contactRepository.findOneBy({id:id})
-
 
     if (!contactFind){
         throw new AppError('contact not found',404)

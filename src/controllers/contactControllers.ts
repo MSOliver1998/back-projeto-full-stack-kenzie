@@ -22,7 +22,7 @@ async function updateContactController(req:Request,res:Response){
 }
 
 async function deleteContactController(req:Request,res:Response){
-    await deleteContactService(Number(req.params.id))
+    await deleteContactService(Number(req.params.contactId),Number(req.params.id))
     return res.status(204).send()
 }
 export {createContactController,getContactController,deleteContactController,updateContactController,getAllContactController}
